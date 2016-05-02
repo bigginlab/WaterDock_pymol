@@ -45,6 +45,8 @@ Python Dependencies
 
 Things to Note
 
-1) For the Holo-Dock, Please ensure the ligand has Hydrogens added to the structure. And inspect the correct protonation states of relevant atoms. 
+1) The script runs AutoDock Vina through system calls of the command 'vina'. The system checks if the command 'vina' is callable and alerts if it is not. Ensure 'vina' in the system refers to AutoDock Vina. 
 
-2) The output file of both WaterDock options is written as 'predictedwaters.pdb'. If 'predictedwaters.pdb' already exists in the folder, it is renamed to 'predictedwaters1.pdb' and the new file is written as 'predictedwaters.pdb'. 
+2) For the Holo-Dock, Please ensure the ligand has Hydrogens added to the structure. And inspect the correct protonation states of relevant atoms. 
+
+3) The output file of both WaterDock options is written as 'predictedwaters.pdb'. If 'predictedwaters.pdb' already exists in the folder, it is renamed to 'predictedwaters1.pdb' and the new file is written as 'predictedwaters.pdb'. 
