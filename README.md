@@ -21,11 +21,15 @@ Download all three and place in a folder and follow steps below.
 
 4) DONE!!
 
+
+
 Next time PyMol is restarted, Under Plugin, 2 Options will be available
 
 1) Apo Waterdock -- The originial WaterDock
 
 2) Holo Waterdock -- The new pipeline specific to holo structures
+
+
 
 Python Dependencies
 
@@ -36,3 +40,11 @@ Python Dependencies
 3) numpy -- (any version compatible with the MDAnalysis build)
 
 4) scipy
+
+
+
+Things to Note
+
+1) For the Holo-Dock, Please ensure the ligand has Hydrogens added to the structure. And inspect the correct protonation states of relevant atoms. 
+
+2) The output file of both WaterDock options is written as 'predictedwaters.pdb'. If 'predictedwaters.pdb' already exists in the folder, it is renamed to 'predictedwaters1.pdb' and the new file is written as 'predictedwaters.pdb'. 
