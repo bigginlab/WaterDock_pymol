@@ -1,0 +1,13 @@
+Apo-Water Dock
+
+In the pop-up, choose the protein file (.pdbqt)
+
+For choosing the binding site, there are two options, 
+1) Either manually enter the X, Y and Z co-ordinates (in A) of the 15 A box
+2) Choose the ligand file (pdb/mol2/pdbqt) that defines the binding site. WaterDock will consider the COM of the ligand as the center of the binding site. 
+
+
+Holo-Water Dock
+
+Seems straightforward. Choose the protein pdbqt file and ligand file. 
+Ensure pdb/mol2 format for the ligand. pdbqt format does not include all the Hydrogens which messes up the functional group identification. 
