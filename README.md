@@ -17,7 +17,7 @@ Download all three and place in a folder and follow steps below.
 
 2) Plugin --> Plugin Manager --> Install New Plugin --> Install From Local File
 
-3) Choose the __init.py file when prompted
+3) Choose the __init__.py file when prompted
 
 4) DONE!!
 
@@ -49,4 +49,31 @@ Things to Note
 
 2) For the Holo-Dock, Please ensure the ligand has Hydrogens added to the structure. And inspect the correct protonation states of relevant atoms. 
 
-3) The output file of both WaterDock options is written as 'predictedwaters.pdb'. If 'predictedwaters.pdb' already exists in the folder, it is renamed to 'predictedwaters1.pdb' and the new file is written as 'predictedwaters.pdb'. 
+3) The output file of both WaterDock options is written as 'predictedwaters.pdb'. If 'predictedwaters.pdb' already exists in the folder, it is renamed to 'predictedwaters1.pdb' and the new file is written as 'predictedwaters.pdb'.
+
+
+For MacPymol Users
+
+1) Ensure that you have the correct version of python active
+
+>> sudo port select --list python
+
+This should return something like:-
+
+Available versions for python:
+none (active)
+python26-apple
+python27
+python27-apple 
+
+You need to make the python27-apple active:-
+
+>> sudo port select python python27-apple
+
+You can check it is by doing the list option again, but it should be fine, then fire up MacPymol and do the install and the plugin should work (assuming you have vina in your path as well)..
+ 
+
+2) After Installation, copy the two additional files addwater.py and dockcheck.py into the folder you instructed pymol to install the plugin. 
+
+
+ 
