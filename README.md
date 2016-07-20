@@ -60,11 +60,11 @@ For MacPymol Users
 
 This should return something like:-
 
-Available versions for python:
-none (active)
-python26-apple
-python27
-python27-apple 
+>> Available versions for python:
+>> none (active)
+>> python26-apple
+>> python27
+>> python27-apple 
 
 You need to make the python27-apple active:-
 
