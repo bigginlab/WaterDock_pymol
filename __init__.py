@@ -154,7 +154,7 @@ def option2():
 
 #############################################################################################################################
 def checkutilities():
-	zz = distutils.spawn.find_executable('zina')
+	zz = distutils.spawn.find_executable('vina')
 	homedir = str(os.environ.get('HOME'))
 	file = homedir + '/pyvina.txt'
 	if zz:
