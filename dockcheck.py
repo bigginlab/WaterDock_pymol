@@ -27,7 +27,7 @@ def writewaterfile(filename, watercoods, finalwaterscores):
 
 	f1.close()
 
-def main(proteinfilename, ligandfilename):
+def main(proteinfilename, ligandfilename, vinacomd):
 
 	U1 = MDAnalysis.Universe(proteinfilename)
 	proteins = U1.select_atoms('protein and not type HD')
@@ -58,7 +58,7 @@ def main(proteinfilename, ligandfilename):
 
 		if watprodist[i] < 3.6 and watprodist[i] > 2.00:
 
-			comd = 'vina --receptor ' + proteinfilename + ' --num_modes 1 --exhaustiveness 20 --ligand water.pdbqt --size_x 0.5 --size_y 0.5 --size_z 0.5 --out waterout.pdbqt --center_x ' + str(trialwatercoods[i,0]) + ' --center_y ' + str(trialwatercoods[i,1]) + ' --center_z ' + str(trialwatercoods[i,2])
+			comd = vinacomd + ' --receptor ' + proteinfilename + ' --num_modes 1 --exhaustiveness 5 --ligand water.pdbqt --size_x 0.5 --size_y 0.5 --size_z 0.5 --out waterout.pdbqt --center_x ' + str(trialwatercoods[i,0]) + ' --center_y ' + str(trialwatercoods[i,1]) + ' --center_z ' + str(trialwatercoods[i,2])
 			os.system(comd)
 			os.system("grep 'RESULT' waterout.pdbqt > water.txt")
 			A = np.genfromtxt('water.txt', usecols = 3, dtype = float)
@@ -153,4 +153,4 @@ def main(proteinfilename, ligandfilename):
 ######################################################################################################################################################################
 
 if __name__ == '__main__':
-	main(sys.argv[1], sys.argv[2])
+	main(sys.argv[1], sys.argv[2], sys.argv[3])

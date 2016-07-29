@@ -23,7 +23,7 @@ def __init__(self):
 ###################################################################################################################################################
 def option1():
 
-	checkutilities()
+	vinacomd = str(checkutilities())
 	A = inputdata1()
 	
 	global proteinfile, ligandoption, ligandfile, centerx, centery, centerz
@@ -66,7 +66,8 @@ def option1():
 	f1.close()
 
 	for i in range(1,4):
-		os.system('vina --config vinaconfig.txt')
+		tempcomd = vinacomd + ' --config vinaconfig.txt'
+		os.system(tempcomd)
 		os.system("grep 'OW' waterout.pdbqt >> allwater.pdbqt")
 		os.system("grep 'RESULT' waterout.pdbqt >> result.log")
 		os.remove('outputlog.txt')
@@ -121,7 +122,7 @@ def option1():
 #############################################################################################################################
 def option2():
 
-	checkutilities()
+	vinacomd = str(checkutilities())
 	A = inputdata2()
 
 	global proteinfile, ligandfile
@@ -133,7 +134,7 @@ def option2():
 	#Writes the water.pdbqt file
 
 	import dockcheck
-	dockcheck.main(proteinfile, ligandfile)
+	dockcheck.main(proteinfile, ligandfile, vinacomd)
 
 	os.remove('waterdetails.txt')
 	os.remove('placedwaters.pdb')
@@ -153,10 +154,26 @@ def option2():
 
 #############################################################################################################################
 def checkutilities():
-	a = str(distutils.spawn.find_executable('vina', path=None))
-	if a == 'None':
-		tkMessageBox.showerror(title='Missing Dependency', message = 'Vina executable missing')
-		sys.exit()
+	zz = distutils.spawn.find_executable('zina')
+	homedir = str(os.environ.get('HOME'))
+	file = homedir + '/pyvina.txt'
+	if zz:
+		if os.path.isfile(zz):
+			vinacomd = zz
+
+	elif os.path.isfile(file):
+		fzz = open(file,'r')
+		vinacomd = fzz.read()
+		fzz.close()
+
+	else:
+		ZZ = vinapath()
+		fzz = open(file,'r')
+		vinacomd = fzz.read()
+		fzz.close()
+
+	return vinacomd
+		
 	
 #############################################################################################################################
 def waterfile():
@@ -383,5 +400,40 @@ class inputdata2:
 			if int(os.path.isfile(ligandfile)) == 0:
 				tkMessageBox.showerror(title='Missing File', message='Ligand File does not exist')
 				sys.exit()
+
+		self.window.quit()
+
+########################################################################################################################
+#############################################################################################################################
+#############################################################################################################################
+
+class vinapath:
+	def __init__(self):
+
+		self.window = Toplevel()
+		self.window.resizable(0,0)
+		self.window.title('Unable to find Vina executable')
+
+		self.vinapathway = StringVar()
+
+		Label(self.window, text = "Enter the path to the vina executable").grid(row = 1, column = 0, sticky = E)
+
+		self.L1 = Entry(self.window, textvariable=self.vinapathway)
+		self.L1.grid(row = 1, column = 1)
+
+		Button(self.window, text="OK", command=self.okay).grid(row=2, column=1, sticky=E)
+		self.window.mainloop()
+
+	def okay(self):
+
+		if hasattr(self.L1,'get'):
+			self.vinapathway = self.L1.get()
+
+		homedir = str(os.environ.get('HOME'))
+		file = homedir + '/pyvina.txt'
+
+		f1 = open(file,'w')
+		f1.write(str(self.vinapathway))
+		f1.close()
 
 		self.window.quit()
