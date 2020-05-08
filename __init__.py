@@ -1,12 +1,12 @@
-from Tkinter import *
+from tkinter import *
 import scipy.cluster
 from pymol import cmd
 import numpy as np
 import os
 import sys
-import tkSimpleDialog
-import tkMessageBox
-import tkFileDialog
+import tkinter.simpledialog
+import tkinter.messagebox
+import tkinter.filedialog
 import distutils.spawn
 import MDAnalysis
 
@@ -84,7 +84,7 @@ def option1():
 	numclust1 = np.max(fit1)
 
 	clustcoods = np.zeros((numclust1,3), dtype = float)
-	for i in xrange(1,numclust1+1):
+	for i in range(1,numclust1+1):
 
 		temp = np.compress(fit1 == i, selectcoods, axis = 0)
 		tempavg = np.mean(temp, axis = 0)
@@ -95,7 +95,7 @@ def option1():
 	numclust2 = np.max(fit2)
 
 	finalcoods = np.zeros((numclust2,3), dtype = float)
-	for i in xrange(1,numclust2+1):
+	for i in range(1,numclust2+1):
 
 		temp = np.compress(fit2 == i, clustcoods, axis = 0)
 		tempavg = np.mean(temp, axis = 0)
@@ -127,13 +127,13 @@ def option2():
 
 	global proteinfile, ligandfile
 
-	import addwater
+	from . import addwater
 	addwater.main(ligandfile)
 
 	waterfile()
 	#Writes the water.pdbqt file
 
-	import dockcheck
+	from . import dockcheck
 	dockcheck.main(proteinfile, ligandfile, vinacomd)
 
 	os.remove('waterdetails.txt')
@@ -199,7 +199,7 @@ def write_waterpdb(waterfilename, coordinates):
     xyz.write("REMARK	Please Cite: Rapid and Accurate Prediction and Scoring of Water Molecules in Protein Binding Sites\n") 
     xyz.write("REMARK	DOI:10.1371/journal.pone.0032036\n")
 
-    for i in xrange(0,numatom):
+    for i in range(0,numatom):
         header = 'HETATM'
         serial = i+1
         name = ' OW '
@@ -276,14 +276,14 @@ class inputdata1:
 
 	def profilechoose(self):
 
-		self.profilenamechoose = tkFileDialog.askopenfilename()
+		self.profilenamechoose = tkinter.filedialog.askopenfilename()
 
 		self.E1.delete(0, END)
 		self.E1.insert(0, self.profilenamechoose)
 
 
 	def ligfilechoose(self):
-		self.ligfilename = tkFileDialog.askopenfilename(filetypes=(("pdb files", "*.pdb"), ("pdbqt files", "*.pdbqt"), ("mol2 files", "*.mol2")))
+		self.ligfilename = tkinter.filedialog.askopenfilename(filetypes=(("pdb files", "*.pdb"), ("pdbqt files", "*.pdbqt"), ("mol2 files", "*.mol2")))
 		self.E2.insert(0, self.ligfilename)
 
 	def byebye(self):
@@ -298,14 +298,14 @@ class inputdata1:
 		proteinfile = self.E1.get()
 
 		if int(os.path.isfile(proteinfile)) == 0:
-			tkMessageBox.showerror(title='Missing File', message='Protein File does not exist')
+			tkinter.messagebox.showerror(title='Missing File', message='Protein File does not exist')
 			sys.exit()
 			
 		if ligandoption == '2':
 			if hasattr(self.E2, 'get'):
 				ligandfile = self.E2.get()
 				if int(os.path.isfile(ligandfile)) == 0:
-					tkMessageBox.showerror(title='Missing File', message='Ligand File does not exist')
+					tkinter.messagebox.showerror(title='Missing File', message='Ligand File does not exist')
 					sys.exit()
 
 		elif ligandoption == '1':
@@ -371,14 +371,14 @@ class inputdata2:
 
 	def profilechoose(self):
 
-		self.profilenamechoose = tkFileDialog.askopenfilename()
+		self.profilenamechoose = tkinter.filedialog.askopenfilename()
 
 		self.E1.delete(0, END)
 		self.E1.insert(0, self.profilenamechoose)
 
 
 	def ligfilechoose(self):
-		self.ligfilename = tkFileDialog.askopenfilename(filetypes=(("pdb files", "*.pdb"), ("pdbqt files", "*.pdbqt"), ("mol2 files", "*.mol2")))
+		self.ligfilename = tkinter.filedialog.askopenfilename(filetypes=(("pdb files", "*.pdb"), ("pdbqt files", "*.pdbqt"), ("mol2 files", "*.mol2")))
 		self.E2.insert(0, self.ligfilename)
 
 	def byebye(self):
@@ -392,13 +392,13 @@ class inputdata2:
 
 
 		if int(os.path.isfile(proteinfile)) == 0:
-			tkMessageBox.showerror(title='Missing File', message='Protein File does not exist')
+			tkinter.messagebox.showerror(title='Missing File', message='Protein File does not exist')
 			sys.exit()
 			
 		if hasattr(self.E2, 'get'):
 			ligandfile = self.E2.get()
 			if int(os.path.isfile(ligandfile)) == 0:
-				tkMessageBox.showerror(title='Missing File', message='Ligand File does not exist')
+				tkinter.messagebox.showerror(title='Missing File', message='Ligand File does not exist')
 				sys.exit()
 
 		self.window.quit()
