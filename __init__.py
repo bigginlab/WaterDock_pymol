@@ -124,6 +124,7 @@ def option1():
     cmd.load('predictedwaters.pdb', 'wats')
     cmd.color('red', 'wats')
     cmd.center('wats')
+
 #############################################################################################################################
 #############################################################################################################################
 #############################################################################################################################
@@ -252,6 +253,7 @@ class inputdata1:
 
         global proteinfile
 
+        tkinter.Tk().withdraw()
         self.window = Toplevel()
         self.window.resizable(0, 0)
         self.window.title("Welcome to WaterDock 2.0")
@@ -369,6 +371,7 @@ class inputdata2:
 
         global proteinfile
 
+        tkinter.Tk().withdraw()
         self.window = Toplevel()
         self.window.resizable(0, 0)
         self.window.title("Welcome to WaterDock 2.0")
@@ -468,7 +471,7 @@ class vinapath:
 
     def vinafilechoose(self):
         self.vinafilenamechoose = tkinter.filedialog.askopenfilename()
-	
+
         self.L1.delete(0, END)
         self.L1.insert(0, self.vinafilenamechoose)
 
