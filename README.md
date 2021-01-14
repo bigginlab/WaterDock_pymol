@@ -1,4 +1,4 @@
-# WaterDock-2.0
+# WaterDock_pymol
 
 Please Cite:
 Rapid and Accurate Prediction and Scoring of Water Molecules in Protein Binding Sites
