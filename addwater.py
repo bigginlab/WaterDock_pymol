@@ -13,27 +13,23 @@ def unitvector(v):
 ######################################################################################################################################################################
 ######################################################################################################################################################################
 def writewaterfile(filename, watercoods):
-
 	numwater = watercoods.shape[0]
-	f1 = open(filename,'w')
+	with open(filename,'w') as f1:
+		for j in range(0,numwater):
+			header = 'HETATM'
+			serial = j+1
+			name = 'OW'
+			resname = 'SOL'
+			chainID = 'A'
+			resSeq = j+1
+			icode = ' '
+			occupancy = 1.0
+			tempfactor = 0.0
+			x = watercoods[j,0]
+			y = watercoods[j,1]
+			z = watercoods[j,2]
+			f1.write("%6s%5d %4s%1s%3s %1s%4d%1s   %8.3f%8.3f%8.3f%6.2f%6.2f\n" %(header,serial,name,icode,resname,chainID,resSeq,icode,x,y,z,occupancy,tempfactor))
 
-	for j in range(0,numwater):
-		header = 'HETATM'
-		serial = j+1
-		name = 'OW'
-		resname = 'SOL'
-		chainID = 'A'
-		resSeq = j+1
-		icode = ' '
-		occupancy = 1.0
-		tempfactor = 0.0
-		x = watercoods[j,0]
-		y = watercoods[j,1]
-		z = watercoods[j,2]
-
-		f1.write("%6s%5d %4s%1s%3s %1s%4d%1s   %8.3f%8.3f%8.3f%6.2f%6.2f\n" %(header,serial,name,icode,resname,chainID,resSeq,icode,x,y,z,occupancy,tempfactor))
-
-	f1.close()
 ######################################################################################################################################################################
 ######################################################################################################################################################################
 def carbonylorcarboxyl(allligand,index,bond_dist):

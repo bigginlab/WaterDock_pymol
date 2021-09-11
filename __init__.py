@@ -3,6 +3,7 @@ from pymol.Qt import QtCore as qtc
 from pymol import cmd
 from pymol import plugins
 import numpy as np
+import re
 import scipy.cluster
 import os
 import sys
@@ -55,19 +56,36 @@ def runapowaterdock(vinacomd, proteinfile, centerx, centery, centerz):
     f1.write('\nlog = outputlog.txt')
     f1.write('\nout = waterout.pdbqt')
     f1.close()
+    
+    coods = []
+    
+    cwd = str(os.getcwd())
+    vinaconfig_filepath = os.path.join(cwd, 'vinaconfig.txt')
+    
+    if sys.platform == 'win32':
+        tempcomd = f'"{vinacomd}"' + ' --config ' + vinaconfig_filepath
+    else:
+        tempcomd = vinacomd + ' --config ' + vinaconfig_filepath
 
     for i in range(1, 4):
-        tempcomd = vinacomd + ' --config vinaconfig.txt'
         os.system(tempcomd)
-        os.system("grep 'OW' waterout.pdbqt >> allwater.pdbqt")
-        os.system("grep 'RESULT' waterout.pdbqt >> result.log")
+        
+        with open("waterout.pdbqt", "r") as waterout, open("allwater.pdbqt", "a") as allwater:
+            for line in waterout:
+                if re.search('OW', line):
+                    allwater.write(line)
+        
+        with open("waterout.pdbqt", "r") as waterout, open("result.log", "a") as result:
+            for line in waterout:
+                if re.search('RESULT', line):
+                    result.write(line)
+        
         os.remove('outputlog.txt')
         os.remove('waterout.pdbqt')
 
     os.remove('vinaconfig.txt')
     coods = np.genfromtxt('allwater.pdbqt', usecols=(5, 6, 7), dtype=float)
     energy = np.genfromtxt('result.log', usecols=3, dtype=float)
-
     selectcoods = np.compress(energy < -0.5, coods, axis=0)
 
     fit1 = scipy.cluster.hierarchy.fclusterdata(
@@ -95,7 +113,7 @@ def runapowaterdock(vinacomd, proteinfile, centerx, centery, centerz):
         finalcoods[i-1, :] = tempavg
 
     if os.path.isfile('predictedwaters.pdb'):
-        os.rename('predictedwaters.pdb', '#predictedwaters.pdb')
+        os.replace('predictedwaters.pdb', '#predictedwaters.pdb')
     write_waterpdb('predictedwaters.pdb', finalcoods)
 
     os.remove('allwater.pdbqt')
@@ -133,10 +151,6 @@ def runholowaterdock(vinacomd, proteinfile, ligandfile):
     from . import dockcheck
     dockcheck.main(proteinfile, ligandfile, vinacomd)
 
-    os.remove('waterdetails.txt')
-    os.remove('placedwaters.pdb')
-    os.remove('water.pdbqt')
-
     cmd.set("retain_order", 1)
     cmd.set("pdb_use_ter_records", 0)
     cmd.load(proteinfile, 'pro')
@@ -147,6 +161,13 @@ def runholowaterdock(vinacomd, proteinfile, ligandfile):
     cmd.load(ligandfile, 'lig')
     cmd.show_as('sticks', 'lig')
     cmd.center('lig')
+    
+    os.remove('waterdetails.txt')
+    os.remove('water.pdbqt')
+    try:
+        os.remove('placedwaters.pdb')
+    except:
+        print("\nWARNING - failed to delete the file 'placedwaters.pdb'\nPlease delete manually at end of pymol session\nPredicted waters are saved in 'predictedwaters.pdb'\n")
 
 #############################################################################################################################
 
@@ -160,7 +181,7 @@ def checkutilities():
         if os.path.isfile(zz):
             vinacomd = zz
 
-    elif os.path.isfile(file): # Previously stored the path to vina executible in pyvina.txt file
+    elif os.path.isfile(file): # Previously stored path to vina executible in pyvina.txt file
         fzz = open(file, 'r')
         vinacomd = fzz.read()
         fzz.close()
@@ -511,4 +532,4 @@ class vinapath(qtw.QDialog):
         else:
             warning = qtw.QMessageBox(2, 'Missing Path', 'Path to vina executable has not been specified')
             warning.exec()
-            
+
