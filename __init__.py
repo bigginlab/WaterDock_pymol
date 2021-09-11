@@ -76,7 +76,7 @@ def runapowaterdock(vinacomd, proteinfile, centerx, centery, centerz):
     numclust1 = np.max(fit1)
 
     clustcoods = np.zeros((numclust1, 3), dtype=float)
-    for i in range(1, numclust1+1):
+    for i in xrange(1, numclust1+1):
 
         temp = np.compress(fit1 == i, selectcoods, axis=0)
         tempavg = np.mean(temp, axis=0)
@@ -88,7 +88,7 @@ def runapowaterdock(vinacomd, proteinfile, centerx, centery, centerz):
     numclust2 = np.max(fit2)
 
     finalcoods = np.zeros((numclust2, 3), dtype=float)
-    for i in range(1, numclust2+1):
+    for i in xrange(1, numclust2+1):
 
         temp = np.compress(fit2 == i, clustcoods, axis=0)
         tempavg = np.mean(temp, axis=0)
@@ -124,13 +124,13 @@ def option2():
 
 def runholowaterdock(vinacomd, proteinfile, ligandfile):
 
-    from . import addwater
+    import addwater
     addwater.main(ligandfile)
 
     waterfile()
     # Writes the water.pdbqt file
 
-    from . import dockcheck
+    import dockcheck
     dockcheck.main(proteinfile, ligandfile, vinacomd)
 
     os.remove('waterdetails.txt')
@@ -207,7 +207,7 @@ def write_waterpdb(waterfilename, coordinates):
     xyz.write("REMARK	Please Cite: Rapid and Accurate Prediction and Scoring of Water Molecules in Protein Binding Sites\n")
     xyz.write("REMARK	DOI:10.1371/journal.pone.0032036\n")
 
-    for i in range(0, numatom):
+    for i in xrange(0, numatom):
         header = 'HETATM'
         serial = i+1
         name = ' OW '
