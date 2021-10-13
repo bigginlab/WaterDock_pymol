@@ -31,15 +31,15 @@ Next time PyMol is restarted, Under Plugin, 2 Options will be available
 
 
 
-Python Dependencies
+Dependencies
 
-1) PyMol ofcourse
+1) PyMol ofcourse 
 
 2) MDAnalysis -- (version > 0.13)
 
-3) numpy -- (any version compatible with the MDAnalysis build)
+3) numpy and Scipy (usually done as part of your MDanalysis install)
 
-4) scipy
+4) Autodock Vina 
 
 
 
@@ -53,6 +53,21 @@ Things to Note
 
 
 For MacPymol Users
+
+M1 Apple Silicon Machines
+=========================
+
+This currently problematic because MDAnalysis does not support Apple Silicon yet.
+
+
+Mac with intel chips
+====================
+
+Best installation route is via conda with python 3.5 --> 3.8 (we had trouble with python 3.9).
+
+
+Much Older Systems (legacy information only)
+============================================
 
 1) Ensure that you have the correct version of python active
 
