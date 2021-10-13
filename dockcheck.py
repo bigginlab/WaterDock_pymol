@@ -3,29 +3,25 @@ import MDAnalysis
 import os
 import sys
 import scipy.cluster
+import re
 
 def writewaterfile(filename, watercoods, finalwaterscores):
-
 	numwater = watercoods.shape[0]
-	f1 = open(filename,'w')
-
-	for j in xrange(0,numwater):
-		header = 'HETATM'
-		serial = j+1
-		name = 'OW'
-		resname = 'SOL'
-		chainID = 'A'
-		resSeq = j+1
-		icode = ' '
-		occupancy = 1.0
-		tempfactor = np.abs(finalwaterscores[j,0])
-		x = watercoods[j,0]
-		y = watercoods[j,1]
-		z = watercoods[j,2]
-
-		f1.write("%6s%5d %4s%1s%3s %1s%4d%1s   %8.3f%8.3f%8.3f%6.2f%6.2f\n" %(header,serial,name,icode,resname,chainID,resSeq,icode,x,y,z,occupancy,tempfactor))
-
-	f1.close()
+	with open(filename,'w') as f1:
+		for j in range(0,numwater):
+			header = 'HETATM'
+			serial = j+1
+			name = 'OW'
+			resname = 'SOL'
+			chainID = 'A'
+			resSeq = j+1
+			icode = ' '
+			occupancy = 1.0
+			tempfactor = np.abs(finalwaterscores[j,0])
+			x = watercoods[j,0]
+			y = watercoods[j,1]
+			z = watercoods[j,2]
+			f1.write("%6s%5d %4s%1s%3s %1s%4d%1s   %8.3f%8.3f%8.3f%6.2f%6.2f\n" %(header,serial,name,icode,resname,chainID,resSeq,icode,x,y,z,occupancy,tempfactor))
 
 def main(proteinfilename, ligandfilename, vinacomd):
 
@@ -54,15 +50,46 @@ def main(proteinfilename, ligandfilename, vinacomd):
 	tempdist = MDAnalysis.lib.distances.distance_array(trialwatercoods,proteincoods)
 	watprodist = np.amin(tempdist, axis = 1)
 
-	for i in xrange(0,numtrialwaters):
+	for i in range(0,numtrialwaters):
 
 		if watprodist[i] < 3.6 and watprodist[i] > 2.00:
-
-			comd = vinacomd + ' --receptor ' + proteinfilename + ' --num_modes 1 --exhaustiveness 5 --ligand water.pdbqt --size_x 0.5 --size_y 0.5 --size_z 0.5 --out waterout.pdbqt --center_x ' + str(trialwatercoods[i,0]) + ' --center_y ' + str(trialwatercoods[i,1]) + ' --center_z ' + str(trialwatercoods[i,2])
+			with open('vinaconfig.txt', 'w') as f1:
+				f1.write('receptor = ')
+				f1.write(str(proteinfilename))
+				f1.write('\nligand = water.pdbqt')
+				f1.write('\nexhaustiveness = 5')
+				f1.write('\nnum_modes = 1')
+				f1.write('\ncenter_x = ')
+				f1.write(str(trialwatercoods[i,0]))
+				f1.write('\ncenter_y = ')
+				f1.write(str(str(trialwatercoods[i,1])))
+				f1.write('\ncenter_z = ')
+				f1.write(str(trialwatercoods[i,2]))
+				f1.write('\nsize_x = 0.5')
+				f1.write('\nsize_y = 0.5')
+				f1.write('\nsize_z = 0.5')
+				f1.write('\nlog = outputlog.txt')
+				f1.write('\nout = waterout.pdbqt')
+			
+			cwd = str(os.getcwd())
+			vinaconfig_filepath = os.path.join(cwd, 'vinaconfig.txt')
+			
+			if sys.platform == 'win32':
+				comd = f'"{vinacomd}"' + ' --config ' + vinaconfig_filepath
+			else:
+				comd = vinacomd + ' --config ' + vinaconfig_filepath
+			
 			os.system(comd)
-			os.system("grep 'RESULT' waterout.pdbqt > water.txt")
+            
+			with open("waterout.pdbqt", "r") as waterout, open("water.txt", "a") as water:
+				for line in waterout:
+					if re.search('RESULT', line):
+						water.write(line)
+            
 			A = np.genfromtxt('water.txt', usecols = 3, dtype = float)
 			waterscores[i] = A
+			os.remove('vinaconfig.txt')
+			os.remove('outputlog.txt')
 			os.remove('water.txt')
 			os.remove('waterout.pdbqt')
 
@@ -85,7 +112,7 @@ def main(proteinfilename, ligandfilename, vinacomd):
 		temppredictedwatercoods = np.float32(temppredictedwatercoods)
 		temppredictedwaterscores = np.zeros((numclust,1), dtype = float)
 
-		for i in xrange(1,numclust+1):
+		for i in range(1,numclust+1):
 			clusttemp = np.compress(fit == i, predictedwatercoods, axis = 0)
 			tempavg = np.mean(clusttemp, axis = 0)
 			temppredictedwatercoods[i-1,:] = tempavg
@@ -132,7 +159,7 @@ def main(proteinfilename, ligandfilename, vinacomd):
 		if nummates > allowedwaters:
 
 			numdiscardedwaters = nummates - allowedwaters
-			for j in xrange(0,numdiscardedwaters):
+			for j in range(0,numdiscardedwaters):
 
 				high = np.argmax(matescores)
 				removedindex = mates[high]
