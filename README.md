@@ -7,6 +7,8 @@ DOI : http://dx.doi.org/10.1371/journal.pone.0032036
 
 This is a PyMol Plugin for the original WaterDock and the new and improved WaterDock 2.0 specific for holo structures.
 
+
+
 Written by Akshay Sridhar with updates from Patrick McCubbin and Phil Biggin.
 
 
@@ -58,6 +60,8 @@ Things to Note
 
 
 For MacPymol Users
+==================
+
 
 M1 Apple Silicon Machines
 =========================
