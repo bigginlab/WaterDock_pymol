@@ -65,6 +65,23 @@ Mac with intel chips
 
 Best installation route is via conda with python 3.5 --> 3.8 (we had trouble with python 3.9).
 
+you can either compile pymol from source or the simplest route is pure conda as in the following example:-
+
+conda create --name pymol-env python=3.7
+
+conda activate pymol-env
+
+conda config --add channels conda-forge
+
+conda install  -c schrodinger pymol-bundle
+
+conda install mdanalysis
+
+conda install -c bioconda autodock-vina
+
+conda install -c anaconda pyqt
+
+Then fire up Pymol and install the plugin as per the instructions above.
 
 Much Older Systems (legacy information only)
 ============================================
