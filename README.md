@@ -11,7 +11,7 @@ Written by Akshay Sridhar with updates from Patrick McCubbin and Phil Biggin.
 
 
 
-INSTALLATION
+Installation
 ============
 
 There are 3 File. __init__.py, addwater.py and dockcheck.py
