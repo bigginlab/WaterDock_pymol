@@ -67,7 +67,7 @@ Best installation route is via conda with python 3.5 --> 3.8 (we had trouble wit
 
 you can either compile pymol from source or the simplest route is pure conda as in the following example:-
 
-conda create --name pymol-env python=3.7
+```conda create --name pymol-env python=3.7
 
 conda activate pymol-env
 
@@ -80,6 +80,7 @@ conda install mdanalysis
 conda install -c bioconda autodock-vina
 
 conda install -c anaconda pyqt
+```
 
 Then fire up Pymol and install the plugin as per the instructions above.
 
