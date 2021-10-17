@@ -7,7 +7,12 @@ DOI : http://dx.doi.org/10.1371/journal.pone.0032036
 
 This is a PyMol Plugin for the original WaterDock and the new and improved WaterDock 2.0 specific for holo structures.
 
+Written by Akshay Sridhar with updates from Patrick McCubbin and Phil Biggin.
+
+
+
 INSTALLATION
+============
 
 There are 3 File. __init__.py, addwater.py and dockcheck.py
 
@@ -110,4 +115,8 @@ You can check it is by doing the list option again, but it should be fine, then 
 2) After Installation, copy the two additional files addwater.py and dockcheck.py into the folder you instructed pymol to install the plugin. 
 
 
+ Help
+ ====
+ 
+ Please don't hesitate to report issues or email philip.biggin@bioch.ox.ac.uk
  
