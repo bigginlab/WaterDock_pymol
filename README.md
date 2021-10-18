@@ -13,10 +13,10 @@ Written by Akshay Sridhar with updates from Patrick McCubbin and Phil Biggin.
 
 
 
-Installation
-============
+Installation (linux and Mac but see below for Mac)
+==================================================
 
-There are 3 File. __init__.py, addwater.py and dockcheck.py
+There are 3 Files: __init__.py, addwater.py and dockcheck.py
 
 Download all three and place in a folder and follow steps below. 
 
@@ -118,6 +118,10 @@ You can check it is by doing the list option again, but it should be fine, then 
 
 2) After Installation, copy the two additional files addwater.py and dockcheck.py into the folder you instructed pymol to install the plugin. 
 
+Windows users
+=============
+
+Please use the separate windows-specific refactored branch.
 
  Help
  ====
