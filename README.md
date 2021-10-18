@@ -66,7 +66,7 @@ For MacPymol Users
 M1 Apple Silicon Machines
 =========================
 
-This currently problematic because MDAnalysis does not support Apple Silicon yet.
+This is currently problematic because MDAnalysis does not support Apple Silicon yet.
 
 
 Mac with intel chips
@@ -74,7 +74,7 @@ Mac with intel chips
 
 Best installation route is via conda with python 3.5 --> 3.8 (we had trouble with python 3.9).
 
-you can either compile pymol from source or the simplest route is pure conda as in the following example:-
+you can either compile pymol from source or the simplest route is pure conda with the schrondinger incentive verison of pymol as in the following example:-
 
 ```
 conda create --name pymol-env python=3.7
@@ -94,7 +94,7 @@ conda install -c anaconda pyqt
 
 Then fire up Pymol and install the plugin as per the instructions above.
 
-Much Older Systems (legacy information only)
+Much Older Systems (legacy information only - probably only for systems older than 5 years)
 ============================================
 
 1) Ensure that you have the correct version of python active
