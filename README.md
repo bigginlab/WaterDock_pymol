@@ -89,17 +89,17 @@ But there are two things to note:
 1.  You will need to use homebrew to install certain libraries.
 2.  The Makefile will need changing to something like:-
 
- BASE=/opt/homebrew
- BOOST_VERSION=
- BOOST_INCLUDE = $(BASE)/include
- C_PLATFORM=-pthread
- CXXFLAGS= DBOOST_TIMER_ENABLE_DEPRECATED
- GPP=/usr/bin/clang++
- C_OPTIONS= -O3 -DNDEBUG -std=c++11 -DBOOST_TIMER_ENABLE_DEPRECATED 
- BOOST_LIB_VERSION=
-
- include ../../makefile_common
-
+`
+BASE=/opt/homebrew
+BOOST_VERSION=
+BOOST_INCLUDE = $(BASE)/include
+C_PLATFORM=-pthread
+CXXFLAGS= DBOOST_TIMER_ENABLE_DEPRECATED
+GPP=/usr/bin/clang++
+C_OPTIONS= -O3 -DNDEBUG -std=c++11 -DBOOST_TIMER_ENABLE_DEPRECATED 
+BOOST_LIB_VERSION=
+include ../../makefile_common
+`
 Good luck!
 
 
