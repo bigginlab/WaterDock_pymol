@@ -66,7 +66,43 @@ For MacPymol Users
 M1 Apple Silicon Machines
 =========================
 
-This is currently problematic because MDAnalysis does not support Apple Silicon yet.
+Newer versions of MDAnalysis now support Apple Silicon (ie. M1 and M2 chips).  However, you will have to most likely compile vina from source (see below).  If you have vina working and installed and you already compiled pymol on your mac you can add then necessary packages thus (I write the packages as explicit separate lines here):
+
+>>>import pip
+>>>pip.main(['install','numpy'])
+>>>pip.main(['install','scipy'])
+>>>pip.main(['install','MDAnalysis'])
+
+then follow the above installation WaterDock_Pymol
+
+M1 Apple Silicon Machines - Vina
+================================
+
+At the time of writing (Oct 2023) there was pip installable version of vina for Apple Silicon.  Therefore, we have to compile ourselves
+
+The instructions are here:-
+
+ https://autodock-vina.readthedocs.io/en/latest/installation.html
+
+But there are two things to note:
+
+1.  You will need to use homebrew to install certain libraries.
+2.  The Makefile will need changing to something like:-
+
+  BASE=/opt/homebrew
+  BOOST_VERSION=
+  BOOST_INCLUDE = $(BASE)/include
+  C_PLATFORM=-pthread
+  CXXFLAGS= DBOOST_TIMER_ENABLE_DEPRECATED
+  GPP=/usr/bin/clang++
+  C_OPTIONS= -O3 -DNDEBUG -std=c++11 -DBOOST_TIMER_ENABLE_DEPRECATED 
+  BOOST_LIB_VERSION=
+
+include ../../makefile_common
+
+Good luck!
+
+![image](https://github.com/bigginlab/WaterDock_pymol/assets/51948186/2b7fc365-0c70-40cf-a98c-916ace6b4299)
 
 
 Mac with intel chips
