@@ -1,5 +1,6 @@
 # WaterDock_pymol
 
+![flake8](https://github.com/bigginlab/WaterDock_pymol/workflows/flake8/badge.svg?branch=master) ![mypy](https://github.com/bigginlab/WaterDock_pymol/workflows/mypy/badge.svg)
 
 [![PLOS ONE](https://img.shields.io/badge/PLOS%20ONE-10.1371%2Fjournal.pone.0172743-blue)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0172743)
 [![PLOS ONE](https://img.shields.io/badge/PLOS%20ONE-10.1371%2Fjournal.pone.0032036-blue)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0032036)
