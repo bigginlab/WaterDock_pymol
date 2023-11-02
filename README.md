@@ -3,6 +3,7 @@
 
 [![PLOS ONE](https://img.shields.io/badge/PLOS%20ONE-10.1371%2Fjournal.pone.0172743-blue)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0172743)
 [![PLOS ONE](https://img.shields.io/badge/PLOS%20ONE-10.1371%2Fjournal.pone.0032036-blue)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0032036)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 This is a PyMol Plugin for the original WaterDock and the new and improved WaterDock 2.0 specific for holo structures.
 
