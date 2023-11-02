@@ -13,25 +13,25 @@ import MDAnalysis
 path2 = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(path2)
 
-####################################################################################################################################################
 
 def __init_plugin__(app=None):
     plugins.addmenuitemqt('Apo-WaterDock', option1)
     plugins.addmenuitemqt('Holo-waterdock', option2)
-    
-dialog = None #global reference avoids garbage collection
 
-###################################################################################################################################################
+
+dialog = None  # global reference avoids garbage collection
+
 
 def option1():
-    
+
     global dialog
     vinacomd = str(checkutilities())
     dialog = inputdata1()
-    
+
     if dialog.result() == 1:
         runapowaterdock(vinacomd, dialog.proteinfile, dialog.centerx, dialog.centery, dialog.centerz)
-    
+
+
 def runapowaterdock(vinacomd, proteinfile, centerx, centery, centerz):
 
     waterfile()
@@ -111,16 +111,16 @@ def runapowaterdock(vinacomd, proteinfile, centerx, centery, centerz):
     cmd.color('red', 'wats')
     cmd.center('wats')
 
-#############################################################################################################################
 
 def option2():
-    
+
     global dialog
     vinacomd = str(checkutilities())
     dialog = inputdata2()
-    
+
     if dialog.result() == 1:
         runholowaterdock(vinacomd, dialog.proteinfile, dialog.ligandfile)
+
 
 def runholowaterdock(vinacomd, proteinfile, ligandfile):
 
@@ -148,37 +148,35 @@ def runholowaterdock(vinacomd, proteinfile, ligandfile):
     cmd.show_as('sticks', 'lig')
     cmd.center('lig')
 
-#############################################################################################################################
-
 
 def checkutilities():
     zz = distutils.spawn.find_executable('vina')
     homedir = str(os.path.expanduser('~'))
     file = os.path.join(homedir, 'pyvina.txt')
-    
-    if zz: # Found vina under command 'vina'
+
+    if zz:  # Found vina under command 'vina'
         if os.path.isfile(zz):
             vinacomd = zz
 
-    elif os.path.isfile(file): # Previously stored the path to vina executible in pyvina.txt file
+    elif os.path.isfile(file):  # Previously stored the path to vina executible in pyvina.txt file
         fzz = open(file, 'r')
         vinacomd = fzz.read()
         fzz.close()
 
-    else: # Needs user to input path to vina executable
-        
+    else:  # Needs user to input path to vina executable
+
         vinapath_dialog = vinapath()
         vinapath_dialog.show()
         vinapath_dialog.raise_()
-        
+
         if vinapath_dialog.result() == 1:
             fzz = open(file, 'r')
             vinacomd = fzz.read()
             fzz.close()
-    
+
     return vinacomd
 
-#############################################################################################################################
+
 def waterfile():
     f1 = open('water.pdbqt', 'w')
 
@@ -195,8 +193,6 @@ def waterfile():
 
     f1.close()
 
-#############################################################################################################################
-
 
 def write_waterpdb(waterfilename, coordinates):
 
@@ -204,7 +200,8 @@ def write_waterpdb(waterfilename, coordinates):
     xyz = open(waterfilename, 'w')
 
     xyz.write("TITLE    Water Molecules Predicted by WaterDock\n")
-    xyz.write("REMARK	Please Cite: Rapid and Accurate Prediction and Scoring of Water Molecules in Protein Binding Sites\n")
+    xyz.write("REMARK	Please Cite: Rapid and Accurate Prediction and Scoring of Water \
+              Molecules in Protein Binding Sites\n")
     xyz.write("REMARK	DOI:10.1371/journal.pone.0032036\n")
 
     for i in range(0, numatom):
@@ -223,24 +220,18 @@ def write_waterpdb(waterfilename, coordinates):
 
     xyz.close()
 
-#############################################################################################################################
-#############################################################################################################################
-#############################################################################################################################
-#############################################################################################################################
-#############################################################################################################################
-#############################################################################################################################
 
 class inputdata1(qtw.QDialog):
-    
+
     def __init__(self, *args, **kwargs):
-        
+
         super().__init__(*args, **kwargs)
-        
+
         self.setWindowTitle("Welcome to WaterDock 2.0")
-        
-        #Interactive Widgets
+
+        #  Interactive Widgets
         self.protein_file_input = qtw.QLineEdit()
-        self.protein_file_choose_button = qtw.QPushButton('Choose')      
+        self.protein_file_choose_button = qtw.QPushButton('Choose')
         self.ligand_coordinates_inputted = qtw.QRadioButton('Enter center of box (A)')
         self.coordinates_widget = qtw.QWidget()
         self.xcom_input = qtw.QLineEdit()
@@ -257,15 +248,15 @@ class inputdata1(qtw.QDialog):
         self.ligand_file_input.setEnabled(False)
         self.ligand_file_choose_button.setEnabled(False)
         self.ligopt = 0
-        
-        #Layout
+
+        #  Layout
         layout = qtw.QGridLayout()
-        layout.addWidget(qtw.QLabel('Predicting Waters in Apo-protein Structures'), 0,0)
-        layout.addWidget(qtw.QLabel('Import protein from File (pdbqt)'),3,0)
-        layout.addWidget(self.protein_file_input, 3,1)
-        layout.addWidget(self.protein_file_choose_button, 3,2)
-        
-        layout.addWidget(qtw.QLabel('Identify the ligand binding site'), 6,0)      
+        layout.addWidget(qtw.QLabel('Predicting Waters in Apo-protein Structures'), 0, 0)
+        layout.addWidget(qtw.QLabel('Import protein from File (pdbqt)'), 3, 0)
+        layout.addWidget(self.protein_file_input, 3, 1)
+        layout.addWidget(self.protein_file_choose_button, 3, 2)
+
+        layout.addWidget(qtw.QLabel('Identify the ligand binding site'), 6, 0)
         self.coordinates_widget.setLayout(qtw.QHBoxLayout())
         self.coordinates_widget.layout().addWidget(qtw.QLabel('X'))
         self.coordinates_widget.layout().addWidget(self.xcom_input)
@@ -273,22 +264,22 @@ class inputdata1(qtw.QDialog):
         self.coordinates_widget.layout().addWidget(self.ycom_input)
         self.coordinates_widget.layout().addWidget(qtw.QLabel('Z'))
         self.coordinates_widget.layout().addWidget(self.zcom_input)
-        layout.addWidget(self.ligand_coordinates_inputted, 7,0)
-        layout.addWidget(self.coordinates_widget, 7,1)
-        layout.addWidget(self.ligand_file_inputted, 8,0)
-        layout.addWidget(self.ligand_file_input, 8,1)
-        layout.addWidget(self.ligand_file_choose_button, 8,2)
-        
+        layout.addWidget(self.ligand_coordinates_inputted, 7, 0)
+        layout.addWidget(self.coordinates_widget, 7, 1)
+        layout.addWidget(self.ligand_file_inputted, 8, 0)
+        layout.addWidget(self.ligand_file_input, 8, 1)
+        layout.addWidget(self.ligand_file_choose_button, 8, 2)
+
         self.cancelrun_widget.setLayout(qtw.QHBoxLayout())
         self.cancelrun_widget.layout().addWidget(self.run_button)
         self.cancelrun_widget.layout().addWidget(self.cancel_button)
-        layout.addWidget(self.cancelrun_widget, 10,0,1,4, qtc.Qt.AlignHCenter)
-        
+        layout.addWidget(self.cancelrun_widget, 10, 0, 1, 4, qtc.Qt.AlignHCenter)
+
         layout.setSizeConstraint(layout.SetFixedSize)
-        for row in range(0,8):
+        for row in range(0, 8):
             layout.setRowMinimumHeight(row, 15)
         self.setLayout(layout)
-        
+
         # Connect signals to functions/slots
         self.protein_file_choose_button.clicked.connect(self.profilechoose)
         self.ligand_coordinates_inputted.clicked.connect(self.coordinpoptionchecked)
@@ -296,48 +287,49 @@ class inputdata1(qtw.QDialog):
         self.ligand_file_choose_button.clicked.connect(self.ligfilechoose)
         self.run_button.clicked.connect(self.rungui)
         self.cancel_button.clicked.connect(self.reject)
-        
+
         # Display
         self.exec()
         self.raise_()
-        
+
     def profilechoose(self):
         self.protein_file_input.clear()
         file_filter = "pdbqt files (*.pdbqt)"
         profilenamechoose = qtw.QFileDialog().getOpenFileName(None, '', '', file_filter)[0]
         self.protein_file_input.insert(profilenamechoose)
-    
+
     def ligfilechoose(self):
         self.ligand_file_input.clear()
         file_filter = "pdb files (*.pdb);; pdbqt files (*.pdbqt);; mol2 files (*.mol2)"
         ligfilenamechoose = qtw.QFileDialog().getOpenFileName(None, '', '', file_filter)[0]
         self.ligand_file_input.insert(ligfilenamechoose)
-    
+
     def coordinpoptionchecked(self):
         self.coordinates_widget.setEnabled(True)
         self.ligand_file_input.setEnabled(False)
         self.ligand_file_choose_button.setEnabled(False)
         self.ligopt = int(1)
-    
+
     def ligfileoptionchecked(self):
         self.coordinates_widget.setEnabled(False)
         self.ligand_file_input.setEnabled(True)
         self.ligand_file_choose_button.setEnabled(True)
         self.ligopt = int(2)
-        
+
     def rungui(self):
-        
+
         self.proteinfile = ''
         self.centerx = None
         self.centery = None
         self.centerz = None
-        
+
         if os.path.isfile(self.protein_file_input.text()):
             self.proteinfile = self.protein_file_input.text()
         else:
-            warning_proteinfile = qtw.QMessageBox(2, 'Missing File', 'Absolute path to protein File has not been inputted or file does not exist')
+            warning_proteinfile = qtw.QMessageBox(2, 'Missing File', 'Absolute path to protein \
+                                                  File has not been inputted or file does not exist')
             warning_proteinfile.exec()
-          
+
         if self.ligopt == 1:
             if self.xcom_input.text() and self.ycom_input.text() and self.zcom_input.text():
                 try:
@@ -345,18 +337,20 @@ class inputdata1(qtw.QDialog):
                     self.centery = float(self.ycom_input.text())
                     self.centerz = float(self.zcom_input.text())
                 except ValueError:
-                    warning_coord_NaN = qtw.QMessageBox(2, 'Incorrect Coordinate(s)', 'Please use integer or decimal for every ligand binding site coordinate')
+                    warning_coord_NaN = qtw.QMessageBox(2, 'Incorrect Coordinate(s)', 'Please use \
+                                                        integer or decimal for every ligand binding site coordinate')
                     warning_coord_NaN.exec()
             else:
-                warning_missing_coord = qtw.QMessageBox(2, 'Missing Coordinate(s)', 'Please specify X, Y, Z for center of box')
+                warning_missing_coord = qtw.QMessageBox(2, 'Missing Coordinate(s)',
+                                                        'Please specify X, Y, Z for center of box')
                 warning_missing_coord.exec()
-        
+
         elif self.ligopt == 2:
             if os.path.isfile(self.ligand_file_input.text()):
                 ligandfile = self.ligand_file_input.text()
-                
+
                 UL = MDAnalysis.Universe(ligandfile)
-                
+
                 if ligandfile[-5:] == 'pdbqt':
                     heavylig = UL.select_atoms('not type HD')
                 else:
@@ -366,31 +360,30 @@ class inputdata1(qtw.QDialog):
                 self.centerx = float(com[0])
                 self.centery = float(com[1])
                 self.centerz = float(com[2])
-            
+
             else:
-                warning_ligandfile = qtw.QMessageBox(2, 'Missing File', 'Absolute path to ligand file has not been inputted or file does not exist')
+                warning_ligandfile = qtw.QMessageBox(2, 'Missing File', 'Absolute path to \
+                                                     ligand file has not been inputted or file does not exist')
                 warning_ligandfile.exec()
-        
+
         else:
-            warning_ligoption = qtw.QMessageBox(2, 'Missing Ligand Binding Site Information', 'Please select an option for identifying the ligand binding site')
-            warning_ligoption.exec()  
-        
-        coord_test = isinstance(self.centerx, float) and isinstance(self.centery, float) and isinstance(self.centerz, float)
+            warning_ligoption = qtw.QMessageBox(2, 'Missing Ligand Binding Site Information',
+                                                'Please select an option for identifying the ligand binding site')
+            warning_ligoption.exec()
+
+        coord_test = isinstance(self.centerx, float) and isinstance(self.centery, float) \
+            and isinstance(self.centerz, float)
         if os.path.isfile(self.proteinfile) and coord_test:
             self.accept()
 
 
-########################################################################################################################
-#############################################################################################################################
-#############################################################################################################################
-
 class inputdata2(qtw.QDialog):
     def __init__(self, *args, **kwargs):
-        
+
         super().__init__(*args, **kwargs)
-        
+
         self.setWindowTitle("Welcome to WaterDock 2.0")
-        
+
         # Interactive widgets
         self.protein_file_input = qtw.QLineEdit()
         self.protein_file_choose_button = qtw.QPushButton('Choose')
@@ -398,106 +391,107 @@ class inputdata2(qtw.QDialog):
         self.ligand_file_choose_button = qtw.QPushButton('Choose')
         self.run_button = qtw.QPushButton('Run')
         self.cancel_button = qtw.QPushButton('Cancel')
-        
-        #Layout
+
+        # Layout
         layout = qtw.QGridLayout()
-        layout.addWidget(qtw.QLabel("Predicting Waters in Holo-protein Structures"), 0,0,1,5)
-        layout.addWidget(qtw.QLabel("Import protein from File (pdbqt)"), 1,0)
-        layout.addWidget(self.protein_file_input,1,1)
-        layout.addWidget(self.protein_file_choose_button,1,2)
-        layout.addWidget(qtw.QLabel("Import ligand from File (pdb/pdbqt/mol2)"),2,0) # Need to deduce if can take pdbqt file
-        layout.addWidget(self.ligand_file_input,2,1)
-        layout.addWidget(self.ligand_file_choose_button,2,2)
-        layout.addWidget(self.run_button,3,3)
-        layout.addWidget(self.cancel_button,3,4)
+        layout.addWidget(qtw.QLabel("Predicting Waters in Holo-protein Structures"), 0, 0, 1, 5)
+        layout.addWidget(qtw.QLabel("Import protein from File (pdbqt)"), 1, 0)
+        layout.addWidget(self.protein_file_input, 1, 1)
+        layout.addWidget(self.protein_file_choose_button, 1, 2)
+        layout.addWidget(qtw.QLabel("Import ligand from File (pdb/pdbqt/mol2)"), 2, 0)
+        layout.addWidget(self.ligand_file_input, 2, 1)
+        layout.addWidget(self.ligand_file_choose_button, 2, 2)
+        layout.addWidget(self.run_button, 3, 3)
+        layout.addWidget(self.cancel_button, 3, 4)
         layout.setSizeConstraint(layout.SetFixedSize)
         self.setLayout(layout)
-        
+
         # Connect signals to functions/slots
         self.protein_file_choose_button.clicked.connect(self.profilechoose)
         self.ligand_file_choose_button.clicked.connect(self.ligfilechoose)
         self.run_button.clicked.connect(self.rungui)
         self.cancel_button.clicked.connect(self.reject)
-        
+
         # Display
         self.exec()
         self.raise_()
-        
+
     def profilechoose(self):
         self.protein_file_input.clear()
-        file_filter = "pdbqt files (*.pdbqt)" # required input for Vina
+        file_filter = "pdbqt files (*.pdbqt)"  # required input for Vina
         protfilenamechoose = qtw.QFileDialog().getOpenFileName(None, '', '', file_filter)[0]
         self.protein_file_input.insert(protfilenamechoose)
-        
+
     def ligfilechoose(self):
         self.ligand_file_input.clear()
         file_filter = "pdb files (*.pdb);; pdbqt files (*.pdbqt);; mol2 files (*.mol2)"
         ligfilenamechoose = qtw.QFileDialog.getOpenFileName(None, '', '', file_filter)[0]
         self.ligand_file_input.insert(ligfilenamechoose)
-            
+
     def rungui(self):
-        
+
         self.proteinfile = ''
         self.ligandfile = ''
-        
+
         if os.path.isfile(self.protein_file_input.text()):
             self.proteinfile = self.protein_file_input.text()
         else:
-            warning_proteinfile = qtw.QMessageBox(2, 'Missing File', 'Absolute path to protein file has not been inputted or file does not exist')
+            warning_proteinfile = qtw.QMessageBox(2, 'Missing File',
+                                                  'Absolute path to protein file has \
+                                                  not been inputted or file does not exist')
             warning_proteinfile.exec()
-        
+
         if os.path.isfile(self.ligand_file_input.text()):
             self.ligandfile = self.ligand_file_input.text()
         else:
-            warning_ligandfile = qtw.QMessageBox(2, 'Missing File', 'Absolute path to ligand file has not been inputted or file does not exist')
+            warning_ligandfile = qtw.QMessageBox(2, 'Missing File',
+                                                 'Absolute path to ligand file has not been \
+                                                 inputted or file does not exist')
             warning_ligandfile.exec()
-        
+
         if os.path.isfile(self.proteinfile) and os.path.isfile(self.ligandfile):
             self.accept()
-    
 
-########################################################################################################################
-#############################################################################################################################
-#############################################################################################################################
 
 class vinapath(qtw.QDialog):
-    
+
     def __init__(self, *args, **kwargs):
-        
+
         super().__init__(*args, **kwargs)
-        
+
         self.setWindowTitle('Unable to find Vina executable')
-        
-        #Widgets
+
+        # Widgets
         self.vinapath_input = qtw.QLineEdit()
         self.choose_button = qtw.QPushButton('Choose')
         self.cancel_button = qtw.QPushButton('Cancel')
         self.okay_button = qtw.QPushButton('OK')
-        
-        #Layout
+
+        # Layout
         layout = qtw.QGridLayout()
         layout.addWidget(qtw.QLabel("Enter absolute path to the vina executable."
-                                    + "\nPath will be written to file 'pyvina.txt' to save for future runs"),0,0,1,4)
-        layout.addWidget(self.vinapath_input,1,0)
-        layout.addWidget(self.choose_button,1,1)
-        layout.addWidget(self.cancel_button,2,2)
-        layout.addWidget(self.okay_button,2,3)
+                                    + "\nPath will be written to file 'pyvina.txt'"
+                                    + "to save for future runs"), 0, 0, 1, 4)
+        layout.addWidget(self.vinapath_input, 1, 0)
+        layout.addWidget(self.choose_button, 1, 1)
+        layout.addWidget(self.cancel_button, 2, 2)
+        layout.addWidget(self.okay_button, 2, 3)
         layout.setSizeConstraint(layout.SetFixedSize)
         self.setLayout(layout)
-        
-        #Connect signals to functions
+
+        #  Connect signals to functions
         self.choose_button.clicked.connect(self.vinafilechoose)
         self.cancel_button.clicked.connect(self.reject)
         self.okay_button.clicked.connect(self.okay)
-        
+
         self.exec()
         self.raise_()
-    
+
     def vinafilechoose(self):
         self.vinapath_input.clear()
         vinafilenamechoose = qtw.QFileDialog().getOpenFileName()[0]
         self.vinapath_input.insert(vinafilenamechoose)
-        
+
     def okay(self):
 
         if os.path.isfile(self.vinapath_input.text()):
@@ -511,4 +505,3 @@ class vinapath(qtw.QDialog):
         else:
             warning = qtw.QMessageBox(2, 'Missing Path', 'Path to vina executable has not been specified')
             warning.exec()
-            
