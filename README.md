@@ -2,16 +2,9 @@
 
 
 [![PLOS ONE](https://img.shields.io/badge/PLOS%20ONE-10.1371%2Fjournal.pone.0172743-blue)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0172743)
-
-
-Please Cite:
-Rapid and Accurate Prediction and Scoring of Water Molecules in Protein Binding Sites
-
-DOI : http://dx.doi.org/10.1371/journal.pone.0032036
+[![PLOS ONE](https://img.shields.io/badge/PLOS%20ONE-10.1371%2Fjournal.pone.0032036-blue)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0032036)
 
 This is a PyMol Plugin for the original WaterDock and the new and improved WaterDock 2.0 specific for holo structures.
-
-
 
 Written by Akshay Sridhar with updates from Patrick McCubbin and Phil Biggin.
 
