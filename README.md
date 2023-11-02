@@ -77,7 +77,7 @@ then follow the above installation WaterDock_Pymol
 M1 Apple Silicon Machines - Vina
 ================================
 
-At the time of writing (Oct 2023) there was pip installable version of vina for Apple Silicon.  Therefore, we have to compile ourselves
+At the time of writing (Oct 2023) there was no pip installable version of vina for Apple Silicon.  Therefore, we have to compile ourselves
 
 The instructions are here:-
 
@@ -85,7 +85,7 @@ The instructions are here:-
 
 But there are two things to note:
 
-1.  You will need to use homebrew to install certain libraries.
+1.  You will need to use homebrew to install certain libraries (boost and swig)
 2.  The Makefile will need changing to something like:-
 
 ```
