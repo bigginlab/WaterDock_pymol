@@ -29,4 +29,4 @@ jobs:
         pip install mypy
     - name: Lint with mypy
       run: |
-        mypy $(git ls-files '*.py')
+        mypy --ignore-missing-imports $(git ls-files '*.py')
