@@ -1,7 +1,7 @@
 # WaterDock_pymol
 
 
-![Static Badge](https://img.shields.io/badge/PLOS%20ONE-10.1371%2Fjournal.pone.0172743-blue)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0172743)
+[![PLOS ONE](https://img.shields.io/badge/PLOS%20ONE-10.1371%2Fjournal.pone.0172743-blue)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0172743)
 
 
 Please Cite:
