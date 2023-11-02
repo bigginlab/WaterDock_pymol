@@ -1,5 +1,8 @@
 # WaterDock_pymol
 
+![Static Badge](https://img.shields.io/badge/PLOS%20ONE-10.1371%2Fjournal.pone.0172743-blue)
+
+
 Please Cite:
 Rapid and Accurate Prediction and Scoring of Water Molecules in Protein Binding Sites
 
