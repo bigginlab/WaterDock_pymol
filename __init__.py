@@ -52,7 +52,7 @@ def runapowaterdock(vinacomd, proteinfile, centerx, centery, centerz):
     f1.write('\nsize_y = 15')
     f1.write('\nsize_z = 15')
     f1.write('\nenergy_range = 100')
-    f1.write('\nlog = outputlog.txt')
+    f1.write('\nverbosity = 1')
     f1.write('\nout = waterout.pdbqt')
     f1.close()
 
@@ -61,7 +61,6 @@ def runapowaterdock(vinacomd, proteinfile, centerx, centery, centerz):
         os.system(tempcomd)
         os.system("grep 'OW' waterout.pdbqt >> allwater.pdbqt")
         os.system("grep 'RESULT' waterout.pdbqt >> result.log")
-        os.remove('outputlog.txt')
         os.remove('waterout.pdbqt')
 
     os.remove('vinaconfig.txt')
